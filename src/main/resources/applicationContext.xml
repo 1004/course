@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context.xsd
+            http://www.springframework.org/schema/task
+            http://www.springframework.org/schema/task/spring-task.xsd
+            http://www.springframework.org/schema/mvc
+            http://www.springframework.org/schema/mvc/spring-mvc.xsd
+            http://www.springframework.org/schema/tx
+            http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!--    组件扫描开启-->
+    <context:component-scan base-package="com.xky.course"></context:component-scan>
+    <!--    排除静态资源-->
+    <mvc:default-servlet-handler></mvc:default-servlet-handler>
+    <!--    启动注解开发-->
+    <mvc:annotation-driven conversion-service="conversionService">
+        <!--        响应体中文乱码-->
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <!--                        html响应体乱码-->
+                        <value>text/html;charset=utf-8</value>
+                        <!--                        json的响应体-->
+                        <value>application/json;charset=utf-8</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+
+    </bean>
+
+    <!--    配置freemarker 模板解析引擎-->
+    <bean id="ViewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+        <!--        html的引擎-->
+        <property name="contentType" value="text/html;charset=utf-8"></property>
+        <!--        json的引擎-->
+        <property name="suffix" value=".ftl"></property>
+    </bean>
+    <!--    配置freemarker的配置-->
+    <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="templateLoaderPath" value="/WEB-INF/ftl"></property>
+        <property name="freemarkerSettings">
+            <props>
+                <prop key="defaultEncoding">UTF-8</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--    Mybatis 和Spring 的整合-->
+    <!--     定义数据源加入ioc管理-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <!--        设置驱动-->
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"></property>
+        <!--        数据库链接字符串-->
+        <property name="url"
+                  value="jdbc:mysql://localhost:3306/xky_reader?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=Asia/Shanghai&amp;allowPublicKeyRetrieval=true"></property>
+        <property name="username" value="root"></property>
+        <property name="password" value="rootXKY123"></property>
+        <!--        数据库连接池 连接数-->
+        <property name="initialSize" value="5"></property>
+        <!--        数据库链接峰值-->
+        <property name="maxActive" value="20"></property>
+    </bean>
+
+    <!--    ioc容器自动初始化sessionFactory 数据库回话工厂  动态加入了ioc容器  不需要手动创建了-->
+    <!--    <bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">-->
+    <!--     myBatis增强版-->
+    <bean id="sessionFactory" class="com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean">
+        <!--        为工厂链接数据源-->
+        <property name="dataSource" ref="dataSource"></property>
+        <!--        设置数据库文件的位置-->
+        <property name="mapperLocations" value="classpath:mappers/*.xml"></property>
+
+        <!--        制定mybatis 配置文件的位置-->
+        <property name="configLocation" value="classpath:mybatis-config.xml"></property>
+    </bean>
+
+    <!--    配置mapper 接口的扫描器  可以生产动态代理类 加入到IOC容器中-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.xky.course.mapper"></property>
+    </bean>
+
+    <!--    声明式事务管理-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!--        设置数据源-->
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+
+    <!--    基于注解的事务-->
+    <tx:annotation-driven transaction-manager="transactionManager"></tx:annotation-driven>
+
+
+    <!--    Mybatis 和Spring 的整合 end-->
+
+</beans>

@@ -1,0 +1,6 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xky.course.mapper.TestMapper">
+    <insert id="insertSample">
+        insert into test(content) value ('xky')
+    </insert>
+</mapper>
