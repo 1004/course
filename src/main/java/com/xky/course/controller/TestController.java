@@ -18,14 +18,14 @@ public class TestController {
     @GetMapping("/query")
     public Book test() {
         Book course = new Book();
-        course.setName("网络应用");
+//        course.setName("网络应用");
         return course;
     }
 
     @GetMapping("/test")
     public String testStr() {
         Book course = new Book();
-        course.setName("网络应用");
+//        course.setName("网络应用");
         return "hellow";
     }
 
