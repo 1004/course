@@ -1,5 +1,6 @@
 package com.xky.course.controller;
 
+import com.xky.course.entry.Member;
 import com.xky.course.entry.ResponseEntry;
 import com.xky.course.service.IMemberService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,15 +23,36 @@ public class MemberController {
     private IMemberService iMemberService;
 
     @PostMapping("/create")
-    public ResponseEntry<Object> create(@RequestParam(value = "userName",required = false) String userName,
-                                        @RequestParam(value = "pwd",required = false) String pwd,
-                                        @RequestParam(value = "nikeName",required = false) String nikeName,
-                                        @RequestParam(value = "verCode",required = false) String verCode,
+    public ResponseEntry<Object> create(@RequestParam(value = "userName", required = false) String userName,
+                                        @RequestParam(value = "pwd", required = false) String pwd,
+                                        @RequestParam(value = "nikeName", required = false) String nikeName,
+                                        @RequestParam(value = "verCode", required = false) String verCode,
                                         HttpServletRequest request) {
         String serverVerCode = (String) request.getSession().getAttribute("kaptchaVerifyCode");
         if (verCode == null || !verCode.equalsIgnoreCase(serverVerCode)) {
             return new ResponseEntry<Object>(1004, "验证码不正确");
         }
         return iMemberService.register(userName, pwd, nikeName);
+    }
+
+    /**
+     * 登录
+     * 登录成功后，往往会获取token
+     * @param userName
+     * @param pwd
+     * @param verCode
+     * @param request
+     * @return
+     */
+    @PostMapping("/login")
+    public ResponseEntry<Member> login(@RequestParam(value = "userName", required = false) String userName,
+                                       @RequestParam(value = "pwd", required = false) String pwd,
+                                       @RequestParam(value = "verCode", required = false) String verCode,
+                                       HttpServletRequest request) {
+        String serverVerCode = (String) request.getSession().getAttribute("kaptchaVerifyCode");
+        if (verCode == null || !verCode.equalsIgnoreCase(serverVerCode)) {
+            return new ResponseEntry<Member>(1004, "验证码不正确");
+        }
+        return iMemberService.login(userName, pwd);
     }
 }

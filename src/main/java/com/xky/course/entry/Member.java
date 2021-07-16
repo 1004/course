@@ -3,6 +3,7 @@ package com.xky.course.entry;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.Date;
 
@@ -17,6 +18,7 @@ public class Member {
     private Long memberId;
     private String username;
     private String password;
+    @JsonIgnoreProperties
     private int salt;
     private Date createTime;
     private String nickname;

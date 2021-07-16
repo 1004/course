@@ -28,10 +28,10 @@ public class MemberService implements IMemberService {
     private MemberMapper memberMapper;
 
     /**
-     *
      * 注册
      * 用户名不能重名
      * 密码必须经过加密
+     *
      * @param userName
      * @param pwd
      * @param nikeName
@@ -54,9 +54,26 @@ public class MemberService implements IMemberService {
         member.setNickname(nikeName);
         int salt = new Random().nextInt(1000) + 1000;
         member.setSalt(salt);
-        member.setPassword(Md5Utils.md5(pwd,salt));
+        member.setPassword(Md5Utils.md5(pwd, salt));
         member.setCreateTime(new Date());
         memberMapper.insert(member);
-        return new ResponseEntry<Object>(0,"success");
+        return new ResponseEntry<Object>(0, "success");
+    }
+
+    public ResponseEntry<Member> login(String userName, String pwd) {
+        if (userName == null || pwd == null) {
+            return new ResponseEntry(1000, "入参不全");
+        }
+        QueryWrapper<Member> queryWrapper = new QueryWrapper<Member>();
+        queryWrapper.eq("username", userName);
+        Member member = memberMapper.selectOne(queryWrapper);
+        if (member == null) {
+            return new ResponseEntry(1005, "用户未注册");
+        }
+        String md5 = Md5Utils.md5(pwd, member.getSalt());
+        if (md5 == null || !md5.equals(member.getPassword())) {
+            return new ResponseEntry<Member>(1006, "用户名密码不正确");
+        }
+        return new ResponseEntry<Member>(0, "success", member);
     }
 }
