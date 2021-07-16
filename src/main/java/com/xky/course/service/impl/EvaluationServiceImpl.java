@@ -5,6 +5,8 @@ import com.xky.course.entry.Evaluation;
 import com.xky.course.mapper.EvaluationMapper;
 import com.xky.course.service.IEvaluationService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.List;
  * @date 2021/7/16 11:02 上午
  */
 @Service("iEvaluationService")
+@Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)// 默认不支持事务
 public class EvaluationServiceImpl implements IEvaluationService {
     @Resource
     private EvaluationMapper evaluationMapper;

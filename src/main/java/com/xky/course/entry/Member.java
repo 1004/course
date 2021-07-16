@@ -17,7 +17,7 @@ public class Member {
     private Long memberId;
     private String username;
     private String password;
-    private String salt;
+    private int salt;
     private Date createTime;
     private String nickname;
 
@@ -45,11 +45,12 @@ public class Member {
         this.password = password;
     }
 
-    public String getSalt() {
+
+    public int getSalt() {
         return salt;
     }
 
-    public void setSalt(String salt) {
+    public void setSalt(int salt) {
         this.salt = salt;
     }
 

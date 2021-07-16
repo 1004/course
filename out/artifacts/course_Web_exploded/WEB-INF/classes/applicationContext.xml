@@ -125,4 +125,25 @@
 
     <!--    Mybatis 和Spring 的整合 end-->
 
+    <!--    Kaptcha 样式-->
+    <bean id="kaptchaProducer" class="com.google.code.kaptcha.impl.DefaultKaptcha">
+        <property name="config">
+            <bean class="com.google.code.kaptcha.util.Config">
+                <constructor-arg>
+                    <props>
+                        <!--                         验证码是否生成边框-->
+                        <prop key="kaptcha.border">no</prop>
+                        <!--                        验证码宽度-->
+                        <prop key="kaptcha.image.widht">120</prop>
+                        <!--                        验证码字体颜色-->
+                        <prop key="kaptcha.textproducer.font.color">blue</prop>
+                        <!--                        每个字符最大占用40像素-->
+                        <prop key="kaptcha.textproducer.font.size">40</prop>
+                        <!--                        4个字符-->
+                        <prop key="kaptcha.textproducer.char.length">4</prop>
+                    </props>
+                </constructor-arg>
+            </bean>
+        </property>
+    </bean>
 </beans>
