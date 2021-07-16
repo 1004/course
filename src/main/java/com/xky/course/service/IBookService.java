@@ -12,4 +12,6 @@ public interface IBookService {
      * @return
      */
     public IPage<Book> paging(Integer page, Integer rows);
+
+    public Book queryBookById(Long id);
 }

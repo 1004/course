@@ -29,4 +29,8 @@ public class BookService implements IBookService {
         Page<Book> bookPages = bookMapper.selectPage(p, new QueryWrapper<Book>());
         return bookPages;
     }
+
+    public Book queryBookById(Long id) {
+        return bookMapper.selectById(id);
+    }
 }

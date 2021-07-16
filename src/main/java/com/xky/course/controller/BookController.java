@@ -45,4 +45,9 @@ public class BookController {
     public IPage<Book> selectByPage(@RequestParam("page") Integer page, @RequestParam("size") Integer size) {
         return iBookService.paging(page, size);
     }
+
+    @GetMapping("/detail")
+    public Book queryById(@RequestParam("id") Long id) {
+        return iBookService.queryBookById(id);
+    }
 }
