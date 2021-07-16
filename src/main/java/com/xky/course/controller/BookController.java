@@ -3,8 +3,10 @@ package com.xky.course.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.xky.course.entry.Book;
 import com.xky.course.entry.Categroy;
+import com.xky.course.entry.Evaluation;
 import com.xky.course.service.IBookService;
 import com.xky.course.service.ICategoryService;
+import com.xky.course.service.IEvaluationService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,6 +28,9 @@ public class BookController {
 
     @Resource
     private IBookService iBookService;
+
+    @Resource
+    private IEvaluationService iEvaluationService;
 
     //    @GetMapping("/index")
 //    public ModelAndView showIndex() {
@@ -49,5 +54,11 @@ public class BookController {
     @GetMapping("/detail")
     public Book queryById(@RequestParam("id") Long id) {
         return iBookService.queryBookById(id);
+    }
+
+
+    @GetMapping("/eva")
+    public List<Evaluation> queryEvaluationsByBookId(@RequestParam("bookId") Long bookId){
+        return iEvaluationService.queryByBookId(bookId);
     }
 }
