@@ -14,4 +14,6 @@ public interface IBookService {
     public IPage<Book> paging(Integer page, Integer rows);
 
     public Book queryBookById(Long id);
+
+    public void updateEvaluation();
 }

@@ -146,4 +146,7 @@
             </bean>
         </property>
     </bean>
+
+    <!--    开启spring task 的任务注解模块-->
+    <task:annotation-driven></task:annotation-driven>
 </beans>

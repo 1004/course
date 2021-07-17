@@ -13,12 +13,12 @@ import java.util.Date;
  * @date 2021/7/16 11:15 上午
  */
 @TableName("member")
+@JsonIgnoreProperties(value = {"password","salt"})
 public class Member {
     @TableId(type = IdType.AUTO)
     private Long memberId;
     private String username;
     private String password;
-    @JsonIgnoreProperties
     private int salt;
     private Date createTime;
     private String nickname;

@@ -9,4 +9,5 @@ import com.xky.course.entry.Book;
  * @date 2021/7/15 11:53 上午
  */
 public interface BookMapper extends BaseMapper<Book> {
+    public void updateEvaluation();
 }

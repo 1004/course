@@ -33,4 +33,12 @@ public class BookService implements IBookService {
     public Book queryBookById(Long id) {
         return bookMapper.selectById(id);
     }
+
+    /**
+     * 开启事务
+     */
+    @Transactional
+    public void updateEvaluation() {
+        bookMapper.updateEvaluation();
+    }
 }
